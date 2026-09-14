@@ -58,25 +58,25 @@
     "zustand": "5.0.15"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.54.4",
-    "@cloudflare/workers-types": "5.20260904.1",
+    "@cloudflare/vite-plugin": "1.54.7",
+    "@cloudflare/workers-types": "5.20260911.1",
     "@openai/sites-vite-plugin": "0.2.0",
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",
-    "@types/node": "22.20.1",
+    "@types/node": "22.20.2",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
     "@vitejs/plugin-react": "6.1.1",
     "@vitejs/plugin-rsc": "0.5.34",
     "@vitest/coverage-v8": "5.0.0",
-    "oxfmt": "0.66.0",
-    "oxlint": "1.81.0",
+    "oxfmt": "0.67.0",
+    "oxlint": "1.82.0",
     "oxlint-tsgolint": "7.0.2001",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3",
-    "vite": "8.2.2",
+    "vite": "8.3.0",
     "vitest": "5.0.0",
-    "wrangler": "4.129.0"
+    "wrangler": "4.131.0"
   },
   "type": "module"
 }
