@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { getBlueprintProfile } from '../domain/catalog';
 import type { BlueprintProfile } from '../domain/blueprint-profile';
 import {
@@ -30,6 +31,7 @@ export function ObjectPreview({
   className?: string;
   color?: string;
 }) {
+  const gradientId = useId();
   const colors = getObjectColors({ blueprint, category, color });
   const scale = Math.min(92 / widthMm, 52 / depthMm);
   const width = widthMm * scale;
@@ -45,30 +47,13 @@ export function ObjectPreview({
       aria-hidden="true"
       focusable="false"
     >
-      {blueprint === 'wheelchair-ramp' ? (
-        // A side elevation makes the slope recognizable at thumbnail size.
-        // The canvas and PNG export still use the measured top-view footprint.
-        <g strokeLinejoin="round" strokeLinecap="round">
-          <path
-            d="M 20 54 L 87 23 L 87 54 Z"
-            fill={colors.fill}
-            stroke={colors.stroke}
-            strokeWidth="1.5"
-          />
-          <path
-            d="M 20 54 L 87 23"
-            fill="none"
-            stroke={colors.stroke}
-            strokeWidth="2.2"
-          />
-          <path
-            d="M 20 58 H 91"
-            fill="none"
-            stroke={colors.detail}
-            strokeWidth="1"
-          />
-        </g>
-      ) : blueprint ? (
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={colors.detail} />
+          <stop offset="1" stopColor={colors.fill} />
+        </linearGradient>
+      </defs>
+      {blueprint ? (
         <g transform="translate(56 36)">
           {officeBlueprint(
             blueprint,
@@ -80,7 +65,15 @@ export function ObjectPreview({
               key={index}
               d={path.d}
               fill={
-                path.solid ? colors.detail : path.detail ? 'none' : colors.fill
+                path.slope
+                  ? `url(#${gradientId})`
+                  : path.strokeOnly
+                    ? 'none'
+                    : path.solid
+                      ? colors.detail
+                      : path.detail
+                        ? 'none'
+                        : colors.fill
               }
               stroke={path.detail ? colors.detail : colors.stroke}
               strokeWidth={path.detail ? 0.8 : 1.2}

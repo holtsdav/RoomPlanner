@@ -61,6 +61,8 @@ export type BlueprintPath = {
   d: string;
   detail: boolean;
   solid?: boolean;
+  slope?: boolean;
+  strokeOnly?: boolean;
   part?: string;
 };
 

@@ -88,7 +88,7 @@ const ObjectDrawing = memo(
       <>
         <Group
           // A ramp is symmetric across its width. Reverse its length with a
-          // half turn so its UP annotation never becomes mirror lettering.
+          // half turn so the wheelchair symbol is not reflected.
           rotation={
             object.blueprint === 'wheelchair-ramp' && object.mirroredVertically
               ? 180
@@ -117,11 +117,23 @@ const ObjectDrawing = memo(
                 key={index}
                 data={path.d}
                 fill={
-                  path.solid
-                    ? colors.detail
-                    : path.detail
-                      ? undefined
-                      : colors.fill
+                  path.slope || path.strokeOnly
+                    ? undefined
+                    : path.solid
+                      ? colors.detail
+                      : path.detail
+                        ? undefined
+                        : colors.fill
+                }
+                fillPriority={path.slope ? 'linear-gradient' : 'color'}
+                fillLinearGradientStartPoint={
+                  path.slope ? { x: 0, y: -object.depthMm / 2 } : undefined
+                }
+                fillLinearGradientEndPoint={
+                  path.slope ? { x: 0, y: object.depthMm / 2 } : undefined
+                }
+                fillLinearGradientColorStops={
+                  path.slope ? [0, colors.detail, 1, colors.fill] : undefined
                 }
                 stroke={path.detail ? colors.detail : selectionStroke}
                 strokeWidth={Math.min(
