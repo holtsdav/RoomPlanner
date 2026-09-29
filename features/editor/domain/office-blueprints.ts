@@ -1,4 +1,8 @@
 import { roomBlueprint, roomKinds } from './room-blueprints';
+import {
+  accessibilityBlueprint,
+  accessibilityKinds,
+} from './accessibility-blueprints';
 import { appleLogoPath } from './apple-logo';
 import type { BlueprintProfile } from './blueprint-profile';
 export const officeKinds = [
@@ -47,6 +51,7 @@ export const blueprintKinds = [
   ...bedroomKinds,
   ...structuralKinds,
   ...roomKinds,
+  ...accessibilityKinds,
   'standing-mirror',
   'upright-piano',
 ] as const;
@@ -56,6 +61,8 @@ export type BlueprintPath = {
   d: string;
   detail: boolean;
   solid?: boolean;
+  slope?: boolean;
+  strokeOnly?: boolean;
   part?: string;
 };
 
@@ -67,6 +74,8 @@ function buildOfficeBlueprint(
   depth: number,
   profile?: BlueprintProfile,
 ): BlueprintPath[] {
+  if ((accessibilityKinds as readonly string[]).includes(kind))
+    return accessibilityBlueprint(kind, width, depth, profile);
   if (
     kind === 'upright-piano' ||
     (roomKinds as readonly string[]).includes(kind)

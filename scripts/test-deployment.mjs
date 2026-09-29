@@ -12,17 +12,28 @@ export async function testDevelopmentGate(
   const cookieName = '__Secure-roomplaner-dev';
   const get = (path = '', cookie = '') =>
     fetch(url + path, { headers: { Cookie: cookie }, redirect: 'manual' });
-  const login = (password, ip = '192.0.2.1', requestOrigin = origin) =>
-    fetch(`${url}/__login`, {
-      method: 'POST',
-      redirect: 'manual',
-      headers: {
-        Origin: requestOrigin,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'CF-Connecting-IP': ip,
-      },
-      body: new URLSearchParams({ password }),
-    });
+  const login = async (password, ip = '192.0.2.1', requestOrigin = origin) => {
+    let response;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      response = await fetch(`${url}/__login`, {
+        method: 'POST',
+        redirect: 'manual',
+        headers: {
+          Origin: requestOrigin,
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'CF-Connecting-IP': ip,
+        },
+        body: new URLSearchParams({ password }),
+      });
+      if (
+        response.status !== 500 ||
+        !(await response.clone().text()).includes('Network connection lost')
+      )
+        return response;
+      await new Promise((resolve) => setTimeout(resolve, 200 * (attempt + 1)));
+    }
+    return response;
+  };
   const warmGuard = async () => {
     let response;
     for (let attempt = 0; attempt < 5; attempt++) {
@@ -54,7 +65,12 @@ export async function testDevelopmentGate(
     (await login('wrong', undefined, 'https://evil.example')).status,
     403,
   );
-  assert.equal((await login('wrong')).status, 401);
+  const rejected = await login('wrong');
+  assert.equal(
+    rejected.status,
+    401,
+    `Wrong-password response: ${(await rejected.text()).slice(0, 2000)}`,
+  );
   const signedIn = await login(testPassword);
   assert.equal(signedIn.status, 303);
   const cookieHeader = signedIn.headers.get('set-cookie');

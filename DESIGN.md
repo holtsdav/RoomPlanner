@@ -5,6 +5,9 @@ colors:
   functional-blue: 'oklch(0.49 0.19 257)'
   functional-blue-soft: '#e6efff'
   selection-blue: '#1d4ed8'
+  clearance-fill: '#eef6ff'
+  clearance-stroke: '#6587a5'
+  clearance-detail: '#8daccc'
   blueprint-navy: '#10233f'
   drafting-ink: 'oklch(0.22 0.045 255)'
   muted-ink: 'oklch(0.49 0.045 255)'
@@ -284,6 +287,10 @@ system. The planner has no object height or mounting elevation controls.
 
 Color choices are optional per object. One shared palette supplies canvas, SVG
 previews, and PNG exports; group and multiple-selection changes skip locked objects.
+Accessibility clearance and turning-space overlays use the pale clearance palette
+so they read as space to reserve, while physical ramps and rails retain
+the standard object palette. Their geometry and colors match in canvas, previews,
+and PNG exports.
 Interactive control ink uses the semantic primary token. Drafting geometry and
 user colors retain explicit light-canvas inks; this editor does not claim a dark theme.
 Closed library sections mount their contents on expansion, and the collapsed tray

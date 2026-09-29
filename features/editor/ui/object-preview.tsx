@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { getBlueprintProfile } from '../domain/catalog';
 import type { BlueprintProfile } from '../domain/blueprint-profile';
 import {
@@ -30,6 +31,7 @@ export function ObjectPreview({
   className?: string;
   color?: string;
 }) {
+  const gradientId = useId();
   const colors = getObjectColors({ blueprint, category, color });
   const scale = Math.min(92 / widthMm, 52 / depthMm);
   const width = widthMm * scale;
@@ -45,6 +47,12 @@ export function ObjectPreview({
       aria-hidden="true"
       focusable="false"
     >
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={colors.detail} />
+          <stop offset="1" stopColor={colors.fill} />
+        </linearGradient>
+      </defs>
       {blueprint ? (
         <g transform="translate(56 36)">
           {officeBlueprint(
@@ -57,7 +65,15 @@ export function ObjectPreview({
               key={index}
               d={path.d}
               fill={
-                path.solid ? colors.detail : path.detail ? 'none' : colors.fill
+                path.slope
+                  ? `url(#${gradientId})`
+                  : path.strokeOnly
+                    ? 'none'
+                    : path.solid
+                      ? colors.detail
+                      : path.detail
+                        ? 'none'
+                        : colors.fill
               }
               stroke={path.detail ? colors.detail : colors.stroke}
               strokeWidth={path.detail ? 0.8 : 1.2}

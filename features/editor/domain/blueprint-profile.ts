@@ -17,6 +17,7 @@ export const blueprintProfileSchema = z.object({
   imageWidthMm: z.number().positive().max(1_000_000).optional(),
   referenceWidthMm: z.number().positive().max(1_000_000),
   referenceDepthMm: z.number().positive().max(1_000_000),
+  rampRiseMm: z.number().positive().max(1_000_000).optional(),
   mattressWidthMm: z.number().positive().max(1_000_000).optional(),
   mattressDepthMm: z.number().positive().max(1_000_000).optional(),
   panelDepthMm: z.number().positive().max(1_000_000).optional(),

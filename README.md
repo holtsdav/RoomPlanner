@@ -1,10 +1,11 @@
 # Room Planner
 
 A precise, blueprint-style 2D room planner for real furniture and devices. The
-local editor supports polygonal rooms, 207 object presets, openings, exact
+local editor supports polygonal rooms, more than 200 object presets, openings, exact
 2D footprint dimensions, groups, object colors, undo/redo, and multiple
 rooms saved in IndexedDB. Standing and wall-mounted TVs have separate library
-entries. PNG exports include an optional grid and wall dimensions plus a scale
+entries. An Accessibility section adds ramps, turning and approach spaces, and
+wall-mounted or freely placed handrails. PNG exports include an optional grid and wall dimensions plus a scale
 legend; JSON backups remain editable.
 
 Geometry is stored in integer millimetres. Room boundaries store wall centrelines; wall labels measure
@@ -66,6 +67,10 @@ Use `feature/`, `fix/`, `chore/`, `docs/`, or `refactor/` prefixes. Production
 releases are pull requests from `develop` to `main`. Both long-lived branches
 are protected and require the CI check; direct and force pushes are disabled.
 
+Merging into `develop` updates the Git branch, not the protected Development
+website. After a verified merge, publish it with `npm run build:develop` and
+`npm run deploy:develop` using the project's Cloudflare account.
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the complete workflow.
 
 ## Planning limits and dimension references
@@ -78,4 +83,7 @@ preserved rather than deleted. Export backups before leaving if saving is unavai
 Library entries expose **About dimensions**; selected-object details also show
 manufacturer references or generic planning-size information. Reference dimensions
 are editable, schematic silhouettes are not CAD models, and operating/access/cable
-clearances are excluded. Check actual products and available clearance when planning.
+clearances are excluded unless a clear-space overlay is explicitly placed. These
+overlays do not validate accessibility compliance. Check actual products and
+applicable local requirements when planning; see the
+[accessibility object notes](docs/product/accessibility-objects.md).

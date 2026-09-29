@@ -6,6 +6,7 @@ import {
   roomPreset,
 } from './room-catalog';
 import { homepodCatalog } from './homepod-catalog';
+import { accessibilityCatalog } from './accessibility-catalog';
 import { sonosCatalog } from './sonos-catalog';
 import { profileForPreset, type BlueprintProfile } from './blueprint-profile';
 import type { OfficeKind, BlueprintKind } from './office-blueprints';
@@ -323,6 +324,7 @@ export const objectCatalog = [
   ...instrumentsCatalog,
   ...bedroomCatalog,
   ...structuralCatalog,
+  ...accessibilityCatalog,
   ...bathroomCatalog,
   ...kitchenCatalog,
   ...livingRoomCatalog,
@@ -336,6 +338,7 @@ export const libraryCategories: readonly LibraryCategory[] = [
     presets: basicShapeCatalog,
   },
   { id: 'structural', name: 'Structural', presets: structuralCatalog },
+  { id: 'accessibility', name: 'Accessibility', presets: accessibilityCatalog },
   { id: 'kitchen', name: 'Kitchen', presets: kitchenCatalog },
   { id: 'bathroom', name: 'Bathroom', presets: bathroomCatalog },
   { id: 'living-room', name: 'Living Room', presets: livingRoomCatalog },
@@ -469,6 +472,14 @@ export function catalogSearchText(preset: CatalogPreset): string {
     pouf: 'ottoman stool',
     'bedroom-bench': 'dining bench',
     'acoustic-panel': 'soundproof wallmount absorber',
+    'wheelchair-ramp':
+      'accessibility mobility slope incline gradient rise angle',
+    'wheelchair-turning-space':
+      'accessibility wheelchair rotation turn around backing up maneuvering space',
+    'clear-floor-space':
+      'accessibility wheelchair approach clearance sink appliance',
+    'wall-handrail': 'accessibility support rail kitchen ramp',
+    handrail: 'accessibility support rail free standing movable kitchen ramp',
   };
   return `${preset.name} ${aliases[preset.blueprint ?? ''] ?? ''}`.toLowerCase();
 }

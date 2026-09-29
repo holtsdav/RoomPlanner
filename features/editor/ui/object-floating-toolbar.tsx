@@ -8,6 +8,7 @@ import {
   Lock,
   LockOpen,
   RotateCcw,
+  RotateCw,
   Trash2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -342,6 +343,19 @@ export function ObjectFloatingToolbar({
             </ToolbarTooltip>
           </span>
         </div>
+        {object.blueprint === 'wheelchair-ramp' && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mt-2"
+            disabled={object.locked}
+            onClick={() =>
+              updateObject({ rotationDeg: (object.rotationDeg + 180) % 360 })
+            }
+          >
+            <RotateCw aria-hidden="true" /> Reverse uphill
+          </Button>
+        )}
         <details className="mt-2 border-t border-slate-100">
           <summary className="flex min-h-11 cursor-pointer items-center gap-2 rounded-md px-1 text-[11px] text-slate-600 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-blue-600">
             Dimension reference

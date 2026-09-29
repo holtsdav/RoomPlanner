@@ -109,10 +109,15 @@ function drawObject(
     toCanvasY(object.positionMm.y),
   );
   context.rotate((object.rotationDeg * Math.PI) / 180);
-  context.scale(
-    object.mirroredHorizontally ? -1 : 1,
-    object.mirroredVertically ? -1 : 1,
-  );
+  if (object.blueprint === 'wheelchair-ramp') {
+    // Match the canvas: reverse the symmetric deck without reflecting its wheelchair symbol.
+    if (object.mirroredVertically) context.rotate(Math.PI);
+  } else {
+    context.scale(
+      object.mirroredHorizontally ? -1 : 1,
+      object.mirroredVertically ? -1 : 1,
+    );
+  }
   context.fillStyle = colors.fill;
   context.strokeStyle = colors.stroke;
   context.lineWidth = Math.max(2, 10 * scale);
@@ -134,7 +139,18 @@ function drawObject(
       const path = new Path2D(part.d);
       context.strokeStyle = part.detail ? colors.detail : colors.stroke;
       context.fillStyle = part.solid ? colors.detail : colors.fill;
-      if (!part.detail || part.solid) context.fill(path);
+      if (part.slope) {
+        const gradient = context.createLinearGradient(
+          0,
+          -height / 2,
+          0,
+          height / 2,
+        );
+        gradient.addColorStop(0, colors.detail);
+        gradient.addColorStop(1, colors.fill);
+        context.fillStyle = gradient;
+      }
+      if (!part.strokeOnly && (!part.detail || part.solid)) context.fill(path);
       context.stroke(path);
     }
     context.restore();
