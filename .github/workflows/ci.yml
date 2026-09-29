@@ -58,7 +58,7 @@ jobs:
       - name: Verify local development app
         run: npm run test:browser
 
-      - name: Verify both deployed Workers and desktop/mobile flows
+      - name: Verify both Worker builds and desktop/mobile flows locally
         run: npm run test:release
 
       - name: Audit production dependencies

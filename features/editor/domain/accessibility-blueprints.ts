@@ -27,8 +27,8 @@ export function accessibilityBlueprint(
   const p = (x: number, y: number) =>
     `${(x - 0.5) * width} ${(y - 0.5) * depth}`;
   const path = (d: string, detail = false) => paths.push({ d, detail });
-  const line = (points: number[][]) =>
-    path(`M ${points.map(([x, y]) => p(x, y)).join(' L ')}`, true);
+  const line = (points: number[][], detail = true) =>
+    path(`M ${points.map(([x, y]) => p(x, y)).join(' L ')}`, detail);
   const polygon = (points: number[][], detail = false) =>
     path(`M ${points.map(([x, y]) => p(x, y)).join(' L ')} Z`, detail);
   const rect = (x = 0, y = 0, w = 1, h = 1, detail = false) =>
@@ -55,29 +55,23 @@ export function accessibilityBlueprint(
 
   switch (kind) {
     case 'wheelchair-ramp':
-      // One line marks the low end; two mark the high end. Neither is a landing.
+      // A simple plan-view run with an uphill arrow, like a drafting diagram.
       rect();
-      line([
-        [0.1, 0.12],
-        [0.9, 0.12],
-      ]);
-      line([
-        [0.1, 0.17],
-        [0.9, 0.17],
-      ]);
-      line([
-        [0.1, 0.88],
-        [0.9, 0.88],
-      ]);
-      line([
-        [0.5, 0.67],
-        [0.5, 0.33],
-      ]);
-      line([
-        [0.37, 0.46],
-        [0.5, 0.33],
-        [0.63, 0.46],
-      ]);
+      line(
+        [
+          [0.5, 0.63],
+          [0.5, 0.36],
+        ],
+        false,
+      );
+      line(
+        [
+          [0.37, 0.46],
+          [0.5, 0.36],
+          [0.63, 0.46],
+        ],
+        false,
+      );
       break;
     case 'ramp-landing':
       rect();

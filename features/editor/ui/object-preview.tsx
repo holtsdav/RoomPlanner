@@ -32,8 +32,15 @@ export function ObjectPreview({
 }) {
   const colors = getObjectColors({ blueprint, category, color });
   const scale = Math.min(92 / widthMm, 52 / depthMm);
-  const width = widthMm * scale;
-  const height = depthMm * scale;
+  // Every ramp variant shares a legible plan symbol in the library. The placed
+  // footprint and the dimensions below the symbol retain their real sizes.
+  const rampWidth = Math.min(60, Math.max(40, (widthMm / 1000) * 48));
+  const rampHeight = (rampWidth * depthMm) / widthMm;
+  const width = blueprint === 'wheelchair-ramp' ? rampWidth : widthMm * scale;
+  const height =
+    blueprint === 'wheelchair-ramp'
+      ? Math.min(52, rampHeight)
+      : depthMm * scale;
   const x = (112 - width) / 2;
   const y = (72 - height) / 2;
   const text = name.length > 18 ? `${name.slice(0, 16)}…` : name;
@@ -60,7 +67,13 @@ export function ObjectPreview({
                 path.solid ? colors.detail : path.detail ? 'none' : colors.fill
               }
               stroke={path.detail ? colors.detail : colors.stroke}
-              strokeWidth={path.detail ? 0.8 : 1.2}
+              strokeWidth={
+                blueprint === 'wheelchair-ramp' && index > 0
+                  ? 2
+                  : path.detail
+                    ? 0.8
+                    : 1.2
+              }
               strokeLinecap="round"
               strokeLinejoin="round"
             />
