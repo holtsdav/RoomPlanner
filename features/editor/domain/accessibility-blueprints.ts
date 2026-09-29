@@ -55,8 +55,23 @@ export function accessibilityBlueprint(
 
   switch (kind) {
     case 'wheelchair-ramp':
-      // A simple plan-view run with an uphill arrow, like a drafting diagram.
+      // Side edges and an uphill arrow distinguish a physical ramp run from
+      // clear-floor planning overlays without implying a built-in landing.
       rect();
+      line(
+        [
+          [0.08, 0],
+          [0.08, 1],
+        ],
+        false,
+      );
+      line(
+        [
+          [0.92, 0],
+          [0.92, 1],
+        ],
+        false,
+      );
       line(
         [
           [0.5, 0.63],

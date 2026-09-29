@@ -32,15 +32,8 @@ export function ObjectPreview({
 }) {
   const colors = getObjectColors({ blueprint, category, color });
   const scale = Math.min(92 / widthMm, 52 / depthMm);
-  // Every ramp variant shares a legible plan symbol in the library. The placed
-  // footprint and the dimensions below the symbol retain their real sizes.
-  const rampWidth = Math.min(60, Math.max(40, (widthMm / 1000) * 48));
-  const rampHeight = (rampWidth * depthMm) / widthMm;
-  const width = blueprint === 'wheelchair-ramp' ? rampWidth : widthMm * scale;
-  const height =
-    blueprint === 'wheelchair-ramp'
-      ? Math.min(52, rampHeight)
-      : depthMm * scale;
+  const width = widthMm * scale;
+  const height = depthMm * scale;
   const x = (112 - width) / 2;
   const y = (72 - height) / 2;
   const text = name.length > 18 ? `${name.slice(0, 16)}…` : name;
@@ -52,7 +45,30 @@ export function ObjectPreview({
       aria-hidden="true"
       focusable="false"
     >
-      {blueprint ? (
+      {blueprint === 'wheelchair-ramp' ? (
+        // A side elevation makes the slope recognizable at thumbnail size.
+        // The canvas and PNG export still use the measured top-view footprint.
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path
+            d="M 20 54 L 87 23 L 87 54 Z"
+            fill={colors.fill}
+            stroke={colors.stroke}
+            strokeWidth="1.5"
+          />
+          <path
+            d="M 20 54 L 87 23"
+            fill="none"
+            stroke={colors.stroke}
+            strokeWidth="2.2"
+          />
+          <path
+            d="M 20 58 H 91"
+            fill="none"
+            stroke={colors.detail}
+            strokeWidth="1"
+          />
+        </g>
+      ) : blueprint ? (
         <g transform="translate(56 36)">
           {officeBlueprint(
             blueprint,
@@ -67,13 +83,7 @@ export function ObjectPreview({
                 path.solid ? colors.detail : path.detail ? 'none' : colors.fill
               }
               stroke={path.detail ? colors.detail : colors.stroke}
-              strokeWidth={
-                blueprint === 'wheelchair-ramp' && index > 0
-                  ? 2
-                  : path.detail
-                    ? 0.8
-                    : 1.2
-              }
+              strokeWidth={path.detail ? 0.8 : 1.2}
               strokeLinecap="round"
               strokeLinejoin="round"
             />
