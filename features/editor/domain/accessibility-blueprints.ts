@@ -128,21 +128,30 @@ export function accessibilityBlueprint(
         ]);
         line([
           [0.5, 0.15],
+          [0.5, 0.3],
+        ]);
+        line([
+          [0.5, 0.7],
           [0.5, 0.75],
         ]);
-        wheelchair(Math.min(width, depth) * 0.23, 0.8, 0.3);
       } else {
         ellipse(0.5, 0.5, 0.5, 0.5);
-        line([
-          [0.5, 0.22],
-          [0.5, 0.78],
-        ]);
-        line([
-          [0.22, 0.5],
-          [0.78, 0.5],
-        ]);
-        wheelchair(Math.min(width, depth) * 0.26, 0.73, 0.28);
+        // Keep the crosshair, with a clear central gap for the symbol.
+        for (const [start, end] of [
+          [0.22, 0.3],
+          [0.7, 0.78],
+        ]) {
+          line([
+            [0.5, start],
+            [0.5, end],
+          ]);
+          line([
+            [start, 0.5],
+            [end, 0.5],
+          ]);
+        }
       }
+      wheelchair(Math.min(width, depth) * 0.34, 0.5, 0.5);
       break;
     case 'clear-floor-space':
       rect();

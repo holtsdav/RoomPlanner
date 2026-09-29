@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures';
 
-test('ramp profile follows run, reverses uphill, and respects locking', async ({
+test('ramp uses only plan controls, resizes, reverses uphill, and respects locking', async ({
   page,
 }, info) => {
   await page.goto('./');
@@ -17,16 +17,15 @@ test('ramp profile follows run, reverses uphill, and respects locking', async ({
   await page
     .getByRole('button', { name: 'Choose Wheelchair ramp', exact: true })
     .click();
-  await page.getByRole('menuitem', { name: /150 mm rise \/ 1:12/ }).click();
+  await page.getByRole('menuitem', { name: /Standard/ }).click();
   const edit = page.getByRole('button', {
     name: 'Edit selected objects',
     exact: true,
   });
   if (await edit.isVisible()) await edit.click();
-  const profile = page.getByRole('region', { name: 'Ramp slope' });
-  await expect(profile).toContainText('1:12 slope · 8.3% · 4.8°');
-  await expect(profile.locator('svg[aria-label]')).not.toContainText(
-    /150 mm|15 cm/,
+  await expect(page.getByRole('region', { name: 'Ramp slope' })).toHaveCount(0);
+  await expect(page.getByText('Ramp · side view', { exact: true })).toHaveCount(
+    0,
   );
   const depth = page.getByRole('textbox', {
     name: 'Object depth in cm',
@@ -34,11 +33,7 @@ test('ramp profile follows run, reverses uphill, and respects locking', async ({
   });
   await depth.fill('240');
   await depth.press('Enter');
-  await expect(profile).toContainText('1:16 slope · 6.3% · 3.6°');
-  await expect(profile.locator('svg[aria-label]')).toHaveAttribute(
-    'aria-label',
-    'Ramp side view: 15 cm rise over 240 cm horizontal run',
-  );
+  await expect(depth).toHaveValue('240');
   const reverse = page.getByRole('button', {
     name: 'Reverse uphill',
     exact: true,

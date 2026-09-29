@@ -7,24 +7,27 @@ const p = roomPreset;
 // run only; landings are not included. The rise is retained so an edited run can still
 // be described by its actual slope. See docs/product/accessibility-objects.md.
 const ramp = (
+  label: string,
   riseMm: number,
   slopeRatio: number,
   widthMm = 1000,
-): CatalogPreset =>
-  p(
+): CatalogPreset => ({
+  ...p(
     'wheelchair-ramp',
     `Wheelchair ramp · ${riseMm} mm rise / 1:${slopeRatio} / ${((Math.atan(1 / slopeRatio) * 180) / Math.PI).toFixed(1)}°`,
     widthMm,
     riseMm * slopeRatio,
     { rampRiseMm: riseMm },
-  );
+  ),
+  name: `Wheelchair ramp · ${label}`,
+});
 
 export const accessibilityCatalog: CatalogPreset[] = [
-  ramp(75, 12),
-  ramp(150, 12),
-  ramp(150, 16),
-  ramp(150, 20),
-  ramp(250, 12, 1200),
+  ramp('Standard', 150, 12),
+  ramp('Short', 75, 12),
+  ramp('Long', 150, 16),
+  ramp('Extra long', 150, 20),
+  ramp('Wide', 250, 12, 1200),
   p(
     'wheelchair-turning-space',
     'Wheelchair turning space · Circle',
