@@ -55,8 +55,8 @@ export function accessibilityBlueprint(
 
   switch (kind) {
     case 'wheelchair-ramp':
-      // Side edges and an uphill arrow distinguish a physical ramp run from
-      // clear-floor planning overlays without implying a built-in landing.
+      // A continuous deck, tapered slope marks and a long UP arrow. Keep the
+      // measured rectangle: a perspective wedge would misrepresent floor space.
       rect();
       line(
         [
@@ -74,16 +74,51 @@ export function accessibilityBlueprint(
       );
       line(
         [
-          [0.5, 0.63],
-          [0.5, 0.36],
+          [0.5, 0.73],
+          [0.5, 0.22],
         ],
         false,
       );
       line(
         [
-          [0.37, 0.46],
-          [0.5, 0.36],
-          [0.63, 0.46],
+          [0.35, 0.34],
+          [0.5, 0.22],
+          [0.65, 0.34],
+        ],
+        false,
+      );
+      // Fan lines follow the slope rather than resembling stair treads.
+      for (const x of [0.18, 0.28, 0.72, 0.82]) {
+        line([
+          [x, 0.12],
+          [x < 0.5 ? 0.12 : 0.88, 0.92],
+        ]);
+      }
+      line(
+        [
+          [0.08, 0.1],
+          [0.92, 0.1],
+        ],
+        false,
+      );
+      // Vector lettering stays identical in the canvas and PNG export, and
+      // fits even extremely narrow custom footprints without font overflow.
+      line(
+        [
+          [0.37, 0.8],
+          [0.37, 0.89],
+          [0.47, 0.89],
+          [0.47, 0.8],
+        ],
+        false,
+      );
+      line(
+        [
+          [0.55, 0.89],
+          [0.55, 0.8],
+          [0.65, 0.8],
+          [0.65, 0.845],
+          [0.55, 0.845],
         ],
         false,
       );

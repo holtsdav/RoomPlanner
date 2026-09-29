@@ -87,8 +87,24 @@ const ObjectDrawing = memo(
     return (
       <>
         <Group
-          scaleX={object.mirroredHorizontally ? -1 : 1}
-          scaleY={object.mirroredVertically ? -1 : 1}
+          // A ramp is symmetric across its width. Reverse its length with a
+          // half turn so its UP annotation never becomes mirror lettering.
+          rotation={
+            object.blueprint === 'wheelchair-ramp' && object.mirroredVertically
+              ? 180
+              : 0
+          }
+          scaleX={
+            object.blueprint !== 'wheelchair-ramp' &&
+            object.mirroredHorizontally
+              ? -1
+              : 1
+          }
+          scaleY={
+            object.blueprint !== 'wheelchair-ramp' && object.mirroredVertically
+              ? -1
+              : 1
+          }
         >
           {object.blueprint ? (
             officeBlueprint(

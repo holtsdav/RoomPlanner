@@ -109,10 +109,15 @@ function drawObject(
     toCanvasY(object.positionMm.y),
   );
   context.rotate((object.rotationDeg * Math.PI) / 180);
-  context.scale(
-    object.mirroredHorizontally ? -1 : 1,
-    object.mirroredVertically ? -1 : 1,
-  );
+  if (object.blueprint === 'wheelchair-ramp') {
+    // Match the canvas: reverse the symmetric deck without mirroring UP.
+    if (object.mirroredVertically) context.rotate(Math.PI);
+  } else {
+    context.scale(
+      object.mirroredHorizontally ? -1 : 1,
+      object.mirroredVertically ? -1 : 1,
+    );
+  }
   context.fillStyle = colors.fill;
   context.strokeStyle = colors.stroke;
   context.lineWidth = Math.max(2, 10 * scale);
