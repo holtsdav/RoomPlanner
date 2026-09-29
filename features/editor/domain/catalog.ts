@@ -474,19 +474,12 @@ export function catalogSearchText(preset: CatalogPreset): string {
     'acoustic-panel': 'soundproof wallmount absorber',
     'wheelchair-ramp':
       'accessibility mobility slope incline gradient rise angle',
-    'ramp-landing': 'accessibility wheelchair level platform',
     'wheelchair-turning-space':
       'accessibility wheelchair rotation turn around backing up maneuvering space',
     'clear-floor-space':
       'accessibility wheelchair approach clearance sink appliance',
-    'kitchen-aisle-clearance':
-      'accessibility wheelchair kitchen passage walkway',
-    'knee-space-worktop':
-      'accessibility wheelchair kitchen counter work surface knee clearance',
-    'knee-space-sink': 'accessibility wheelchair kitchen sink knee clearance',
-    'pull-out-shelf': 'accessibility kitchen sliding storage',
     'wall-handrail': 'accessibility support rail kitchen ramp',
-    'grab-bar': 'accessibility support handle rail',
+    handrail: 'accessibility support rail free standing movable kitchen ramp',
   };
   return `${preset.name} ${aliases[preset.blueprint ?? ''] ?? ''}`.toLowerCase();
 }

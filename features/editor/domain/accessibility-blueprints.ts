@@ -3,14 +3,16 @@ import type { BlueprintPath } from './office-blueprints';
 
 export const accessibilityKinds = [
   'wheelchair-ramp',
-  'ramp-landing',
+  'handrail',
   'wheelchair-turning-space',
   'clear-floor-space',
+  'wall-handrail',
+  // Retain retired symbols so objects in older saved plans still render.
+  'ramp-landing',
   'kitchen-aisle-clearance',
   'knee-space-worktop',
   'knee-space-sink',
   'pull-out-shelf',
-  'wall-handrail',
   'grab-bar',
 ] as const;
 
@@ -53,23 +55,28 @@ export function accessibilityBlueprint(
 
   switch (kind) {
     case 'wheelchair-ramp':
+      // One line marks the low end; two mark the high end. Neither is a landing.
       rect();
       line([
-        [0.07, 0],
-        [0.07, 1],
+        [0.1, 0.12],
+        [0.9, 0.12],
       ]);
       line([
-        [0.93, 0],
-        [0.93, 1],
+        [0.1, 0.17],
+        [0.9, 0.17],
       ]);
       line([
-        [0.5, 0.86],
-        [0.5, 0.14],
+        [0.1, 0.88],
+        [0.9, 0.88],
       ]);
       line([
-        [0.42, 0.24],
-        [0.5, 0.14],
-        [0.58, 0.24],
+        [0.5, 0.67],
+        [0.5, 0.33],
+      ]);
+      line([
+        [0.37, 0.46],
+        [0.5, 0.33],
+        [0.63, 0.46],
       ]);
       break;
     case 'ramp-landing':
@@ -198,6 +205,11 @@ export function accessibilityBlueprint(
         [0.92, 0.14],
         [0.92, 0.86],
       ]);
+      break;
+    case 'handrail':
+      rect(0, 0.38, 1, 0.24);
+      rect(0.08, 0, 0.08, 1, true);
+      rect(0.84, 0, 0.08, 1, true);
       break;
   }
   return paths;
