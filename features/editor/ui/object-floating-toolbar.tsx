@@ -8,13 +8,13 @@ import {
   Lock,
   LockOpen,
   RotateCcw,
+  RotateCw,
   Trash2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { isWallAttached } from '../domain/wall-attachment';
 import { DimensionProvenance } from './dimension-provenance';
-import { RampProfile } from './ramp-profile';
 import { ObjectVariantMenu } from './object-variant-menu';
 import {
   getObjectDefaultSize,
@@ -344,13 +344,17 @@ export function ObjectFloatingToolbar({
           </span>
         </div>
         {object.blueprint === 'wheelchair-ramp' && (
-          <RampProfile
-            object={object}
-            units={units}
-            onReverse={() =>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mt-2"
+            disabled={object.locked}
+            onClick={() =>
               updateObject({ rotationDeg: (object.rotationDeg + 180) % 360 })
             }
-          />
+          >
+            <RotateCw aria-hidden="true" /> Reverse uphill
+          </Button>
         )}
         <details className="mt-2 border-t border-slate-100">
           <summary className="flex min-h-11 cursor-pointer items-center gap-2 rounded-md px-1 text-[11px] text-slate-600 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-blue-600">

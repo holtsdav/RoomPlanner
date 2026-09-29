@@ -35,14 +35,9 @@ export function catalogProvenance(object: CatalogPreset | PlanObject) {
       kind === 'pull-out-shelf' ||
       kind === 'handrail')
   ) {
-    const rise = object.blueprintProfile?.rampRiseMm;
-    const slope = rise ? object.depthMm / rise : 0;
-    const angle = rise
-      ? ((Math.atan(rise / object.depthMm) * 180) / Math.PI).toFixed(1)
-      : '';
     const note =
       kind === 'wheelchair-ramp'
-        ? `The footprint is the horizontal run only. At ${rise} mm rise, this run is 1:${Number(slope.toFixed(1))} (about ${angle}°). Resizing the run changes that grade. The shaded end and arrow mark uphill; landings are not included.`
+        ? 'The footprint is the horizontal run only. The shaded end and arrow mark uphill; landings are not included.'
         : kind === 'knee-space-worktop' || kind === 'knee-space-sink'
           ? 'This is a representative counter or sink footprint. Counter height and knee and toe clearances are not modeled in 2D.'
           : kind === 'wall-handrail' || kind === 'grab-bar'

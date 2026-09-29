@@ -55,7 +55,7 @@ describe('Accessibility objects', () => {
     }
   });
 
-  it('exposes distinct ramp grades and keeps their rise when saved and resized', () => {
+  it('offers plan-size ramp variants and preserves reference rise in saved data', () => {
     const category = libraryCategories.find(
       (entry) => entry.id === 'accessibility',
     );
@@ -72,16 +72,14 @@ describe('Accessibility objects', () => {
       const rise = preset.blueprintProfile?.rampRiseMm;
       expect(rise).toBeGreaterThan(0);
       expect(preset.depthMm / rise!).toBeGreaterThanOrEqual(12);
-      expect(preset.name).toContain(
-        `${((Math.atan(rise! / preset.depthMm) * 180) / Math.PI).toFixed(1)}°`,
-      );
+      expect(preset.name).not.toMatch(/rise|°/);
       const object = objectFromPreset(preset, preset.id, { x: 1000, y: 1000 });
       expect(
         planObjectSchema.parse(JSON.parse(JSON.stringify(object))),
       ).toEqual(object);
       expect(
         catalogProvenance({ ...object, depthMm: object.depthMm * 2 }).note,
-      ).toContain(`1:${(preset.depthMm / rise!) * 2}`);
+      ).not.toContain('rise');
     }
     expect(catalogSearchText(ramps[0])).toContain('gradient');
   });
