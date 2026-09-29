@@ -67,6 +67,10 @@ Use `feature/`, `fix/`, `chore/`, `docs/`, or `refactor/` prefixes. Production
 releases are pull requests from `develop` to `main`. Both long-lived branches
 are protected and require the CI check; direct and force pushes are disabled.
 
+Merging into `develop` updates the Git branch, not the protected Development
+website. After a verified merge, publish it with `npm run build:develop` and
+`npm run deploy:develop` using the project's Cloudflare account.
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the complete workflow.
 
 ## Planning limits and dimension references
