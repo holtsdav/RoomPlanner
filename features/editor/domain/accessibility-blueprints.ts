@@ -53,75 +53,54 @@ export function accessibilityBlueprint(
       detail,
     );
 
+  // One proportion-preserving wheelchair pictogram for every rendering surface.
+  const wheelchair = (size: number, cx: number, cy: number) => {
+    const unit = size / 24;
+    const point = (x: number, y: number) =>
+      `${(cx - 0.5) * width + (x - 12) * unit} ${(cy - 0.5) * depth + (y - 12) * unit}`;
+    const radius = (r: number) => r * unit;
+    const symbol = (d: string) =>
+      paths.push({ d, detail: false, strokeOnly: true, part: 'wheelchair' });
+    symbol(
+      `M ${point(11, 3)} A ${radius(2.2)} ${radius(2.2)} 0 1 0 ${point(15.4, 3)} A ${radius(2.2)} ${radius(2.2)} 0 1 0 ${point(11, 3)} Z`,
+    );
+    symbol(
+      `M ${point(2, 17)} A ${radius(6)} ${radius(6)} 0 1 0 ${point(14, 17)} A ${radius(6)} ${radius(6)} 0 1 0 ${point(2, 17)} Z`,
+    );
+    symbol(
+      `M ${point(13, 7)} L ${point(13, 14)} L ${point(19, 14)} L ${point(22, 21)} L ${point(24, 20)} M ${point(13, 9)} L ${point(19, 9)}`,
+    );
+  };
+
   switch (kind) {
     case 'wheelchair-ramp':
-      // A continuous deck, tapered slope marks and a long UP arrow. Keep the
-      // measured rectangle: a perspective wedge would misrepresent floor space.
+      // Shading encodes the uphill end without changing the measured footprint.
       rect();
+      paths[paths.length - 1].slope = true;
       line(
         [
-          [0.08, 0],
-          [0.08, 1],
+          [0, 0.025],
+          [1, 0.025],
         ],
         false,
       );
       line(
         [
-          [0.92, 0],
-          [0.92, 1],
+          [0.5, 0.53],
+          [0.5, 0.25],
         ],
         false,
       );
       line(
         [
-          [0.5, 0.73],
-          [0.5, 0.22],
+          [0.4, 0.33],
+          [0.5, 0.25],
+          [0.6, 0.33],
         ],
         false,
       );
-      line(
-        [
-          [0.35, 0.34],
-          [0.5, 0.22],
-          [0.65, 0.34],
-        ],
-        false,
-      );
-      // Fan lines follow the slope rather than resembling stair treads.
-      for (const x of [0.18, 0.28, 0.72, 0.82]) {
-        line([
-          [x, 0.12],
-          [x < 0.5 ? 0.12 : 0.88, 0.92],
-        ]);
-      }
-      line(
-        [
-          [0.08, 0.1],
-          [0.92, 0.1],
-        ],
-        false,
-      );
-      // Vector lettering stays identical in the canvas and PNG export, and
-      // fits even extremely narrow custom footprints without font overflow.
-      line(
-        [
-          [0.37, 0.8],
-          [0.37, 0.89],
-          [0.47, 0.89],
-          [0.47, 0.8],
-        ],
-        false,
-      );
-      line(
-        [
-          [0.55, 0.89],
-          [0.55, 0.8],
-          [0.65, 0.8],
-          [0.65, 0.845],
-          [0.55, 0.845],
-        ],
-        false,
-      );
+      for (const part of paths.slice(1)) part.strokeOnly = true;
+      wheelchair(Math.min(width * 0.42, depth * 0.26), 0.5, 0.75);
       break;
     case 'ramp-landing':
       rect();
@@ -151,6 +130,7 @@ export function accessibilityBlueprint(
           [0.5, 0.15],
           [0.5, 0.75],
         ]);
+        wheelchair(Math.min(width, depth) * 0.23, 0.8, 0.3);
       } else {
         ellipse(0.5, 0.5, 0.5, 0.5);
         line([
@@ -161,6 +141,7 @@ export function accessibilityBlueprint(
           [0.22, 0.5],
           [0.78, 0.5],
         ]);
+        wheelchair(Math.min(width, depth) * 0.26, 0.73, 0.28);
       }
       break;
     case 'clear-floor-space':

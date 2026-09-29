@@ -25,6 +25,9 @@ test('ramp profile follows run, reverses uphill, and respects locking', async ({
   if (await edit.isVisible()) await edit.click();
   const profile = page.getByRole('region', { name: 'Ramp slope' });
   await expect(profile).toContainText('1:12 slope · 8.3% · 4.8°');
+  await expect(profile.locator('svg[aria-label]')).not.toContainText(
+    /150 mm|15 cm/,
+  );
   const depth = page.getByRole('textbox', {
     name: 'Object depth in cm',
     exact: true,

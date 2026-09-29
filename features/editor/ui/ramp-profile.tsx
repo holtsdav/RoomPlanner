@@ -79,7 +79,7 @@ export function RampProfile({
               fontSize="12"
               fill={colors.stroke}
             >
-              High · {formatMeasurement(rise, units)}
+              High
             </text>
             <text
               x={right}
@@ -103,8 +103,8 @@ export function RampProfile({
         </p>
       )}
       <p className="mt-1 text-xs text-slate-600">
-        UP points to the high end on the plan. Depth sets the horizontal run;
-        rise comes from the selected variant. Landings are separate.
+        The arrow points to the high end on the plan. Depth sets the horizontal
+        run; rise comes from the selected variant. Landings are separate.
       </p>
     </section>
   );

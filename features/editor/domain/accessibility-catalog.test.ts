@@ -13,6 +13,48 @@ import { createStarterPlan, planObjectSchema } from './plan-document';
 import { findWallAttachment, isWallAttached } from './wall-attachment';
 
 describe('Accessibility objects', () => {
+  it('shades only the ramp deck and keeps wheelchair symbols proportional and below its arrow', () => {
+    const ramps = accessibilityCatalog.filter(
+      (preset) => preset.blueprint === 'wheelchair-ramp',
+    );
+    for (const preset of ramps) {
+      const parts = officeBlueprint(
+        preset.blueprint!,
+        preset.widthMm,
+        preset.depthMm,
+        preset.blueprintProfile,
+      );
+      expect(parts.filter((part) => part.slope)).toHaveLength(1);
+      expect(parts[0].slope).toBe(true);
+      for (const part of parts.filter((part) => part.part === 'wheelchair')) {
+        expect(part.strokeOnly).toBe(true);
+        const path = new Path({ data: part.d });
+        expect(path.getSelfRect().y).toBeGreaterThan(preset.depthMm * 0.03);
+        path.destroy();
+      }
+    }
+    const presets = accessibilityCatalog.filter(
+      (preset) =>
+        preset.blueprint === 'wheelchair-ramp' ||
+        preset.blueprint === 'wheelchair-turning-space',
+    );
+    for (const preset of presets) {
+      const parts = officeBlueprint(
+        preset.blueprint!,
+        preset.widthMm,
+        preset.depthMm,
+        preset.blueprintProfile,
+      );
+      const symbol = parts.filter((part) => part.part === 'wheelchair');
+      expect(symbol).toHaveLength(3);
+      // The wheelchair's wheel stays circular rather than stretching to match the footprint.
+      const wheel = new Path({ data: symbol[1].d });
+      const bounds = wheel.getSelfRect();
+      expect(bounds.width).toBeCloseTo(bounds.height, 2);
+      wheel.destroy();
+    }
+  });
+
   it('exposes distinct ramp grades and keeps their rise when saved and resized', () => {
     const category = libraryCategories.find(
       (entry) => entry.id === 'accessibility',
