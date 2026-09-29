@@ -54,7 +54,12 @@ export async function testDevelopmentGate(
     (await login('wrong', undefined, 'https://evil.example')).status,
     403,
   );
-  assert.equal((await login('wrong')).status, 401);
+  const rejected = await login('wrong');
+  assert.equal(
+    rejected.status,
+    401,
+    `Wrong-password response: ${(await rejected.text()).slice(0, 2000)}`,
+  );
   const signedIn = await login(testPassword);
   assert.equal(signedIn.status, 303);
   const cookieHeader = signedIn.headers.get('set-cookie');

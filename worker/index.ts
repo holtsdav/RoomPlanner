@@ -90,7 +90,12 @@ export default {
         let size = 0;
         const decoder = new TextDecoder();
         while (true) {
-          const { done, value } = await reader.read();
+          const { done, value } = await reader
+            .read()
+            .catch((error: unknown) => {
+              console.error('Development login body read failed', error);
+              throw error;
+            });
           if (done) break;
           size += value.byteLength;
           if (size > 2048) {
@@ -104,11 +109,16 @@ export default {
         }
         body += decoder.decode();
         const password = new URLSearchParams(body).get('password') ?? '';
-        const result = await guard.login(
-          request.headers.get('CF-Connecting-IP') ?? 'unknown',
-          password,
-          env.DEV_PASSWORD,
-        );
+        const result = await guard
+          .login(
+            request.headers.get('CF-Connecting-IP') ?? 'unknown',
+            password,
+            env.DEV_PASSWORD,
+          )
+          .catch((error: unknown) => {
+            console.error('Development login guard RPC failed', error);
+            throw error;
+          });
         if (result.status !== 200) return loginPage(base, result.status);
         return new Response(null, {
           status: 303,

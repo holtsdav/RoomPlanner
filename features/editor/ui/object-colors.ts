@@ -19,6 +19,19 @@ export const windowColors = {
   detail: '#8fb9d6',
 };
 
+const clearanceColors = {
+  fill: '#eef6ff',
+  stroke: '#6587a5',
+  detail: '#8daccc',
+};
+
+const clearanceBlueprints = new Set([
+  'ramp-landing',
+  'wheelchair-turning-space',
+  'clear-floor-space',
+  'kitchen-aisle-clearance',
+]);
+
 export const colorChoices = [
   { name: 'Blue', value: '#93c5fd' },
   { name: 'Green', value: '#86efac' },
@@ -36,7 +49,9 @@ export function getObjectColors(object: {
   if (!object.color)
     return object.blueprint === 'window'
       ? windowColors
-      : objectColors[object.category];
+      : object.blueprint && clearanceBlueprints.has(object.blueprint)
+        ? clearanceColors
+        : objectColors[object.category];
   const channels = [1, 3, 5].map((index) =>
     Number.parseInt(object.color!.slice(index, index + 2), 16),
   );
