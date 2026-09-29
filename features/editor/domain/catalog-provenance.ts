@@ -42,7 +42,7 @@ export function catalogProvenance(object: CatalogPreset | PlanObject) {
       : '';
     const note =
       kind === 'wheelchair-ramp'
-        ? `The footprint is the horizontal run only. At ${rise} mm rise, this run is 1:${Number(slope.toFixed(1))} (about ${angle}°). Resizing the run changes that grade. Landings are not included.`
+        ? `The footprint is the horizontal run only. At ${rise} mm rise, this run is 1:${Number(slope.toFixed(1))} (about ${angle}°). Resizing the run changes that grade. The library side-view icon exaggerates the slope; landings are not included.`
         : kind === 'knee-space-worktop' || kind === 'knee-space-sink'
           ? 'This is a representative counter or sink footprint. Counter height and knee and toe clearances are not modeled in 2D.'
           : kind === 'wall-handrail' || kind === 'grab-bar'
