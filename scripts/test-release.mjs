@@ -15,7 +15,8 @@ async function run(command, args, env = {}) {
   if (code !== 0)
     throw new Error(`${command} ${args.join(' ')} failed (${code})`);
 }
-for (const target of ['production', 'develop']) {
+// Check the protected development Worker before the longer public release flow.
+for (const target of ['develop', 'production']) {
   await run('npm', ['run', `build:${target}`]);
   const state = await mkdtemp(join(tmpdir(), 'roomplanner-release-'));
   const testPassword = crypto.randomUUID();
@@ -107,6 +108,7 @@ for (const target of ['production', 'develop']) {
       `PASS: ${target} compiled Worker and desktop/mobile browser regressions`,
     );
   } catch (error) {
+    await new Promise((resolve) => setTimeout(resolve, 200));
     console.error(serverLog.replaceAll(testPassword, '[local test password]'));
     throw error;
   } finally {
