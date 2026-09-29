@@ -2,13 +2,13 @@
 
 The Accessibility library provides plan-view objects and clear-space overlays. They help lay out a room; they do not certify a design. Preset dimensions use rounded metric planning sizes or U.S. Access Board reference dimensions. Check local requirements and actual products before building.
 
-| Object                   | Preset basis                                                 | What the footprint means                                                                                                           |
-| ------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Wheelchair ramp          | 75, 150, or 250 mm sample rises; 1:12, 1:16, and 1:20 grades | Width × **horizontal run only**. The displayed angle is `atan(rise / run)`. Landings, handrails, and edge protection are excluded. |
-| Wheelchair turning space | 1525 mm circle or T-turn envelope                            | Keep-clear maneuvering area. The T symbol shows a 915 mm wide stem within the envelope.                                            |
-| Clear floor space        | 760 × 1220 mm, rotated for side approach                     | Keep-clear approach area for a fixture, worktop, or appliance.                                                                     |
-| Wall handrail            | Representative 900, 1500, and 2000 mm lengths                | Physical rail footprint that snaps to a wall. Mounting height and support are outside this 2D plan.                                |
-| Freestanding handrail    | Representative 900, 1500, and 2000 mm lengths                | Physical rail footprint that can be placed anywhere. Check actual supports, height, and gripping clearance separately.             |
+| Object                   | Preset basis                                                 | What the footprint means                                                                                               |
+| ------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| Wheelchair ramp          | 75, 150, or 250 mm sample rises; 1:12, 1:16, and 1:20 grades | Width × **horizontal run only**. Landings, handrails, and edge protection are excluded.                                |
+| Wheelchair turning space | 1525 mm circle or T-turn envelope                            | Keep-clear maneuvering area. The T symbol shows a 915 mm wide stem within the envelope.                                |
+| Clear floor space        | 760 × 1220 mm, rotated for side approach                     | Keep-clear approach area for a fixture, worktop, or appliance.                                                         |
+| Wall handrail            | Representative 900, 1500, and 2000 mm lengths                | Physical rail footprint that snaps to a wall. Mounting height and support are outside this 2D plan.                    |
+| Freestanding handrail    | Representative 900, 1500, and 2000 mm lengths                | Physical rail footprint that can be placed anywhere. Check actual supports, height, and gripping clearance separately. |
 
 The ramp uses a shaded top-view deck: dark at the high end and light at the entry, with an uphill arrow and a wheelchair symbol beneath it. The library, canvas, and PNG export share this drawing. There are no height labels on the drawing. The footprint retains the full horizontal run; landings are not included. Both circular and T-shaped turning spaces retain their reference lines and add the same wheelchair symbol centered in a gap in the lines, sized without stretching its proportions.
 
