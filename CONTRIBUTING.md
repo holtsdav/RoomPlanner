@@ -6,9 +6,19 @@
 2. Create a focused branch named `feature/...`, `fix/...`, `chore/...`,
    `docs/...`, or `refactor/...`.
 3. Keep commits small and use imperative commit subjects.
-4. Run `npm run check`.
+4. Run `npm run check`, `npm run test:browser`, `npm run test:release`, and
+   `npm audit --omit=dev --audit-level=high`. `check` alone does not cover the
+   browser or compiled Worker checks required by CI. Install the matching
+   browser with `npx playwright install chromium` first, or point
+   `PLAYWRIGHT_EXECUTABLE_PATH` at an installed Chromium browser locally.
 5. Push the branch and open a pull request into `develop`.
 6. Resolve review threads and wait for CI before merging.
+
+When CI fails, read the failing step and its logs before changing application
+code. A canceled run after another push is expected. Local Worker transport
+failures and dependency audit failures are separate from editor regressions;
+report the failing run and verification limits in the PR. See the
+[September PR failure investigation](docs/audits/2026-09-29/pr-failures.md).
 
 Do not push directly to `develop` or `main`. Release by opening a pull request
 from `develop` to `main`. Squash ordinary feature branches into `develop`. Use
